@@ -13,11 +13,11 @@
         cursor: pointer;
     }
   </style>
-  <script type="text/javascript" src="scripts/vendor/angular.js"></script>
-  <script type="text/javascript" src="scripts/arithmeticapp.js"></script>
-  <script type="text/javascript" src="scripts/factories/arithmeticnode.js"></script>
-  <script type="text/javascript" src="scripts/directives/focusme.js"></script>
-  <script type="text/javascript" src="scripts/controllers/arithmeticcontroller.js"></script>
+  <script type="text/javascript" src="vendor/angular.js"></script>
+  <script type="text/javascript" src="arithmeticapp.js"></script>
+  <script type="text/javascript" src="factories/arithmeticnode.js"></script>
+  <script type="text/javascript" src="directives/focusme.js"></script>
+  <script type="text/javascript" src="controllers/arithmeticcontroller.js"></script>
   <body>
 
     <div ng-app="arithmeticApp">
@@ -42,9 +42,10 @@
             </tbody>
           </colgroup>
         </table>
+        <div id="success-message" ng-show="root.size === 1">
+          CORRECT!
+        </div>
       </div>
     </div>
-
-
   </body>
 </html>

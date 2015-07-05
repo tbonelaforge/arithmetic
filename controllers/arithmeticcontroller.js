@@ -5,25 +5,21 @@ arithmeticApp.controller(
     'ArithmeticNode',
     '$timeout',
     function($scope, ArithmeticNode, $timeout) {
-      console.log("Inside the arithmetic controller, got called, and ArithmeticNode is:\n", ArithmeticNode);
       var node0 = new ArithmeticNode({
         type: 'NUM',
         data: '3',
         id: 0
       });
-      
       var node1 = new ArithmeticNode({
         type: 'NUM',
         data: '5',
         id: 1
       });
-      
       var node2 = new ArithmeticNode({
         type: 'NUM',
         data: '2',
         id: 2
       });
-      
       var node3 = new ArithmeticNode({
         type: 'BOP',
         data: '*',
@@ -32,13 +28,11 @@ arithmeticApp.controller(
         left: node0,
         right: node1
       });
-      
       var node4 = new ArithmeticNode({
         type: 'NUM',
         data: '7',
         id: 4
       });
-      
       var node5 = new ArithmeticNode({
         type: 'BOP',
         data: '+',
@@ -47,7 +41,6 @@ arithmeticApp.controller(
         left: node2,
         right: node3
       });
-      
       var node6 = new ArithmeticNode({
         type: 'BOP',
         data: '-',
@@ -64,9 +57,7 @@ arithmeticApp.controller(
       $scope.nodesByCellId = null;
 
       $scope.updateViewData = function() {
-        console.log("Inside updateViewData, got called\n");
         $scope.cells = $scope.root.getCells();
-        console.log("Inside updateViewData, the cells are:\n", $scope.cells);
         $scope.nodesByCellId = {};
         $scope.workingId = null;
         angular.forEach($scope.cells, function(cell) {
@@ -81,7 +72,6 @@ arithmeticApp.controller(
         if (cell.working) {
           return;
         }
-        console.log("Inside startWorking, got called with cell:\n", cell);
         if ($scope.workingId) {
           $scope.nodesByCellId[$scope.workingId].working = false;
         }
@@ -90,18 +80,13 @@ arithmeticApp.controller(
       };
       
       $scope.checkWork = function(e) {
-        console.log("Inside checkWork function, got called with e:\n", e);
         var response = null;
 
         if (e.keyCode === 13) {
-          console.log("Now is the time to check the work..\n");
           response = e.target.textContent;
-          console.log("Got a response of:\n", response);
           if ($scope.isValidResponse(response)) {
-            console.log("Realized the response is valid...\n");
             $scope.replaceNode($scope.workingId, response);
           } else {
-            console.log("Don't think the response is valid...\n");
             $scope.stopWorking($scope.workingId);
           }
         }
