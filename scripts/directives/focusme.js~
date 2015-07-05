@@ -1,0 +1,6 @@
+arithmeticApp.directive(
+  'focusMe',
+  function($timeout, $parse) {
+
+  }
+);

@@ -1,0 +1,3 @@
+arithmeticApp.controller('arithmeticController', ['$scope', 'ArithmeticNode', function($scope, ArithmeticNode) {
+
+});

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <style>
+    table.fixed { table-layout:fixed; }
+    table.fixed td { overflow: hidden; }
+    table.fixed { border-collapse: collapse; }
+    
+    .work[placeholder]:empty:before {
+    content: attr(placeholder);
+    color: #555; 
+    }
+    .clickable {
+        cursor: pointer;
+    }
+  </style>
+  <script type="text/javascript" src="scripts/vendor/angular.js"></script>
+  <script type="text/javascript" src="scripts/arithmeticapp.js"></script>
+  <script type="text/javascript" src="scripts/factories/arithmeticnode.js"></script>
+  <script type="text/javascript" src="scripts/directives/focusme.js"></script>
+  <script type="text/javascript" src="scripts/controllers/arithmeticcontroller.js"></script>
+  <body>
+
+    <div ng-app="arithmeticApp">
+      <div ng-controller="arithmeticController">
+        <table id="arithmetic-node-display" class="fixed">
+          <colgroup id="arithmetic-column-group">
+            <col ng-repeat="cell in cells" width="{{ cell.width }}px">
+            <tbody>
+              <tr id="arithmetic-row">
+                <td
+                   ng-repeat="cell in cells"
+                   id="{{ cell.id }}"
+                   contenteditable="{{ cell.working }}"
+                   placeholder="{{ cell.placeholder }}"
+                   class="{{ cell.class }}"
+                   ng-click="( !cell.working ) ? startWorking(cell) : ''"
+                   tabindex="{{ cell.tabindex }}"
+                   ng-attr-focus-me="cell.working"
+                   >{{ cell.data }}</td>
+              <tr>
+            </tbody>
+          </colgroup>
+        </table>
+      </div>
+    </div>
+
+
+  </body>
+</html>
