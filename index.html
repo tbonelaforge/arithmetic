@@ -36,6 +36,7 @@
                    ng-click="( !cell.working ) ? startWorking(cell) : ''"
                    tabindex="{{ cell.tabindex }}"
                    ng-attr-focus-me="cell.working"
+                   ng-keypress="checkWork($event)"
                    >{{ cell.data }}</td>
               <tr>
             </tbody>
