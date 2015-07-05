@@ -102,6 +102,7 @@ arithmeticApp.controller(
             $scope.replaceNode($scope.workingId, response);
           } else {
             console.log("Don't think the response is valid...\n");
+            $scope.stopWorking($scope.workingId);
           }
         }
       };
@@ -131,6 +132,13 @@ arithmeticApp.controller(
         targetNode.left = null;
         targetNode.right = null;
         $scope.root.recalculateSize();
+        $scope.updateViewData();
+      }
+
+      $scope.stopWorking = function(workingId) {
+        var node = $scope.nodesByCellId[workingId];
+
+        node.working = false;
         $scope.updateViewData();
       }
 
