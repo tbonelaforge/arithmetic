@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MyMathQuill Example</title>
+    <link rel="stylesheet" href="mathquill.css"></link>
+  </head>
+  <body>
+    STEP 1:
+    <p>
+      <span class="mq-math-mode">
+        <span class="mq-root-block">
+          <span>2</span><span class="mq-binary-operator">+</span><span>3</span><span class="mq-textcolor" style="color:red"><span class="mq-binary-operator">&times;</span></span><span>5</span></span></span>
+    </p>
+    STEP 2:
+    <p>
+      <span class="mq-math-mode">
+        <span class="mq-root-block">
+          <span>2</span><span class="mq-binary-operator">+</span>
+          <span class="mq-editable-field" id="edit1" tabindex="0">
+            <span class="mq-root-block mq-has-cursor">
+              <span class="mq-selection">
+                <span>3</span><span class="mq-binary-operator">&times;</span><span>5</span></span><span class="mq-cursor" id="cursor">&#8203;</span>
+            </span>
+          </span>
+        </span>
+      </span>
+    </p>
+    
+  </body>
+  <script type="text/javascript" src="vendor/jquery-3.1.1.js"></script>
+  <script type="text/javascript" src="node.js"></script>
+  <script type="text/javascript" src="arithmetic.js"></script>
+</html>
