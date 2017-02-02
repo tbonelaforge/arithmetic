@@ -3,13 +3,14 @@
   <head>
     <title>MyMathQuill Example</title>
     <link rel="stylesheet" href="mathquill.css"></link>
+    <link rel="stylesheet" href="arithmetic.css"></link>
   </head>
   <body>
     STEP 1:
     <p>
       <span class="mq-math-mode">
         <span class="mq-root-block">
-          <span>2</span><span class="mq-binary-operator">+</span><span>3</span><span class="mq-textcolor" style="color:red"><span class="mq-binary-operator">&times;</span></span><span>5</span></span></span>
+          <span id="node1">2</span><span class="mq-binary-operator" id="node2">+</span><span id="node3">3</span><span class="mq-textcolor" style="color:red"><span class="mq-binary-operator clickable" id="node4">&times;</span></span><span id="node5">5</span></span></span>
     </p>
     STEP 2:
     <p>
@@ -26,8 +27,16 @@
       </span>
     </p>
     
+    <p id="generated-html">
+      
+    </p>
+
   </body>
   <script type="text/javascript" src="vendor/jquery-3.1.1.js"></script>
-  <script type="text/javascript" src="node.js"></script>
+  <script type="text/javascript" src="model/node.js"></script>
+  <script type="text/javascript" src="view/numbereditor.js"></script>
+  <script type="text/javascript" src="view/staticdigit.js"></script>
+  <script type="text/javascript" src="view/staticoperator.js"></script>
+  <script type="text/javascript" src="example-viewnode-list.js"></script>
   <script type="text/javascript" src="arithmetic.js"></script>
 </html>

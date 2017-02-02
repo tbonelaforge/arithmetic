@@ -1,5 +1,45 @@
+var viewNode1 = {
+  type: "staticNumber",
+  value: 22,
+  render: function() {
+    var html = "";
+    var digits = this.getDigitArray();
+    for (var i = 0; i < digits.length; i++) {
+      var digit = digits[i];
+      html += '<span>' + digit + '</span>';
+    }
+    return html;
+  },
+  getDigitArray: function() {
+    var digitString = "" + this.value;
+    var digitArray = digitString.split("");
 
-var numberEditor = {
+    return digitArray;
+  }
+};
+
+var viewNode2 = {
+  type: "staticOperator",
+  value: '+',
+  render: function() {
+    var html = "";
+    var entity = this.getEntity();
+
+    html += '<span class="mq-binary-operator">' + entity + '</span>';
+    return html;
+  },
+
+  getEntity: function() {
+    if (this.value == '+') {
+      return '+';
+    } else if (this.value == '*') {
+      return '&times;';
+    }
+  }
+}
+
+var viewNode3 = {
+  type: 'numberEditor',
   buffer: [
     new Node({type: 'number', value: 3}),
     new Node({type: 'operator', value: '*'}),
@@ -75,8 +115,8 @@ var numberEditor = {
       return this.startPoint;
     }
   },
-  printAsHTML: function() {
-    html = '<span class="mq-root-block">';
+  render: function() {
+    html = '<span class="mq-editable-field" id="editing"><span class="mq-root-block mq-has-cursor">';
     for (var p = 0; p <= this.buffer.length; p++) {
       if (p == this.endPoint) {
         html += '<span class="mq-cursor" id="cursor">&#8203;</span>';
@@ -91,84 +131,7 @@ var numberEditor = {
         html += this.buffer[p].printAsHTML();
       }
     }
-    html += '</span>';
+    html += '</span></span>';
     return html;
   }
 };
-
-function onKeyPress(event) {
-  // NEED digits 0-9
-  console.log("Inside onKeyPress, got called with event:\n");
-  console.log(event);
-  //numberEditor.processKeyEvent(event);
-}
-
-function onKeyDown(event) {
-  // Need Shift, left Arrow, Right Arrow
-  console.log("Inside onKeyDown, got called with event:\n");
-  if (event.code == "ArrowRight") {
-    numberEditor.handleRightArrow();
-  } else if (event.code == "ArrowLeft") {
-    numberEditor.handleLeftArrow();
-  } else if (event.key == "Shift") {
-    numberEditor.handleShiftKeyDown();
-  }
-  console.log("The new state is:\n", numberEditor);
-  console.log("The new HTML is:\n", numberEditor.render());
-  edit1Element.innerHTML = numberEditor.render();
-}
-
-function onKeyUp(event) {
-  // Need Shift
-  console.log("Inside onKeyUp, got called with event:\n");
-  if (event.key == "Shift") {
-    numberEditor.handleShiftKeyUp();
-  }
-  console.log("The new state is:\n", numberEditor);
-  console.log("The new HTML is:\n", numberEditor.printAsHTML());
-  edit1Element.innerHTML = numberEditor.printAsHTML();
-}
-
-var edit1Element = document.getElementById('edit1');
-edit1Element.focus();
-
-edit1Element.addEventListener("keypress", onKeyPress, false);
-edit1Element.addEventListener("keydown", onKeyDown, false);
-edit1Element.addEventListener("keyup", onKeyUp, false);
-
-setInterval(function() {
-  //console.log("Inside the setInterval function, toggling blink...\n");
-  var cursorElement = $('#cursor');
-  //console.log("Got cursor:\n", cursorElement);
-  $('#cursor').toggleClass('mq-blink');
-}, 500);
-
-function handleOperatorClick() {
-  console.log("Inside handleOperatorClick, got called...\n");
-}
-
-var clickableElement = document.getElementById('node4');
-console.log("The clickableElement is:\n", clickableElement);
-clickableElement.addEventListener("click", handleOperatorClick);
-
-
-
-function renderViewNodes(viewNodes) {
-  var html = "";
-  html += '<span class="mq-math-mode"><span class="mq-root-block">';
-  for (var i = 0; i < viewNodes.length; i++) {
-    var viewNode = viewNodes[i];
-    var viewNodeHtml = viewNode.render();
-    html += viewNodeHtml;
-  }
-  html += '</span></span';
-  return html;
-}
-
-console.log('The result of rendering the viewnodes is:\n');
-var view = renderViewNodes([viewNode1, viewNode2, viewNode3]);
-console.log(view);
-var generatedHtmlElement = document.getElementById('generated-html');
-generatedHtmlElement.innerHTML = view;
-
-var node1
