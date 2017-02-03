@@ -80,7 +80,8 @@ NumberEditor.prototype.getSelectionRight = function() {
 };
 
 NumberEditor.prototype.render = function() {
-  var html = '<span class="mq-editable-field"><span class="mq-root-block">';
+  var html = '<span class="mq-editable-field" id="editor" tabindex="0">';
+
   for (var p = 0; p <= this.buffer.length; p++) {
     if (p == this.endPoint) {
       html += '<span class="mq-cursor" id="cursor">&#8203;</span>';
@@ -92,10 +93,9 @@ NumberEditor.prototype.render = function() {
       html += '</span>';
     }
     if (p < this.buffer.length) {
-//      html += this.buffer[p].printAsHTML();
       html += this.buffer[p].render();
     }
   }
-  html += '</span></span>';
+  html += '</span>';
   return html;
 };

@@ -1,7 +1,9 @@
 function Node(options) {
+  this.id = options.id;
   this.type = options.type; // Can be 'number' or 'operator'
   this.value = options.value;
-  this.editing = options.editing || false;
+//  this.editing = options.editing || false;
+  this.state = options.state || 'static'; // Can be static, easy, hard, or editing
   this.left = options.left || null;
   this.right = options.right || null;
 }
@@ -20,16 +22,11 @@ Node.prototype.toBufferContent = function() {
   var bufferContent = [];
 
   if (this.type == 'operator') {
-    console.log("Inside toBufferContent, got called on node: this:\n", this);
-//    bufferContent.push(this.copy());
-//    bufferContent.push(new BufferNode({type: 'operator', value: this.value}));
     bufferContent.push(new StaticOperator({value: this.value}));
   } else if (this.type == 'number') {
     var digitArray = this.splitDigits();
     for (var i = 0; i < digitArray.length; i++) {
       var digit = digitArray[i];
-//      bufferContent.push(new Node({type: 'number', value: parseInt(digit)}));
-//      bufferContent.push(new BufferNode({type: 'number', value: parseInt(digit)}));
       bufferContent.push(new StaticDigit({digit: parseInt(digit)}));
     }
   }
@@ -64,9 +61,8 @@ Node.prototype.toNumberEditor = function() {
   return numberEditor;
 }
 
-
 Node.prototype.toViewNodes = function() {
-  if (this.editing) {
+  if (this.state == 'editing') {
     return [this.toNumberEditor()];
   }
   var left = [];
@@ -83,6 +79,7 @@ Node.prototype.toViewNodes = function() {
   return viewNodes;
 };
 
+
 Node.prototype.toTheseViewNodes = function() {
   if (this.type == "number") {
     var digitArray = this.splitDigits();
@@ -94,7 +91,13 @@ Node.prototype.toTheseViewNodes = function() {
     return theseViewNodes;    
   }
   else if (this.type == "operator") {
-    return [new StaticOperator({value: this.value})];
+    return [
+      new StaticOperator({
+        id: this.id,
+        value: this.value,
+        state: this.state
+      })
+    ];
   } else {
     console.log("Unrecognized node type: %s", this.type);
   }
