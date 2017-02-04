@@ -63,6 +63,45 @@ NumberEditor.prototype.handleMovingEndpoint = function() {
   }
 };
 
+NumberEditor.prototype.handleDelete = function() {
+  if (!this.selectionActive) {
+    if (this.endPoint <= 0) {
+      return;
+    }
+    var newEndPoint = this.endPoint - 1;
+    this.buffer.splice(newEndPoint, 1);
+    this.endPoint = newEndPoint;
+    this.startPoint = newEndPoint;
+  } else { // selection is active
+    this.deleteSelection();
+  }
+};
+
+NumberEditor.prototype.handleDigitInsert = function(digit) {
+  if (!this.selectionActive) {
+    this.insertDigit(digit);
+  } else { // selection is active
+    this.deleteSelection();
+    this.insertDigit(digit);
+  }
+};
+
+NumberEditor.prototype.deleteSelection = function() {
+  var selectionLeft = this.getSelectionLeft();
+  var selectionRight = this.getSelectionRight();
+  this.buffer.splice(selectionLeft, selectionRight - selectionLeft);
+  this.startPoint = selectionLeft;
+  this.endPoint = selectionLeft;
+  this.selectionActive = false;
+};
+
+NumberEditor.prototype.insertDigit = function(digit) {
+  var staticDigit = new StaticDigit({digit: digit});
+  this.buffer.splice(this.endPoint, 0, staticDigit);
+  this.endPoint = this.endPoint + 1;
+  this.startPoint = this.endPoint;
+};
+  
 NumberEditor.prototype.getSelectionLeft = function() {
   if (this.startPoint <= this.endPoint) {
     return this.startPoint;

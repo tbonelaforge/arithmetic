@@ -2,7 +2,6 @@ function Node(options) {
   this.id = options.id;
   this.type = options.type; // Can be 'number' or 'operator'
   this.value = options.value;
-//  this.editing = options.editing || false;
   this.state = options.state || 'static'; // Can be static, easy, hard, or editing
   this.left = options.left || null;
   this.right = options.right || null;
