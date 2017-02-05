@@ -138,3 +138,16 @@ NumberEditor.prototype.render = function() {
   html += '</span>';
   return html;
 };
+
+NumberEditor.prototype.parseBuffer = function() {
+  var numString = "";
+
+  for (var i = 0; i < this.buffer.length; i++) {
+    var viewNode = this.buffer[i];
+    if (!(viewNode instanceof StaticDigit)) {
+      return null;
+    }
+    numString += viewNode.digit;
+  }
+  return parseInt(numString);
+};

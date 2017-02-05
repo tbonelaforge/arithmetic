@@ -27,7 +27,6 @@ NodeScanner.prototype.computeClickableNodes = function() {
 NodeScanner.setStates = function(node) {
   var nodeScanner = new NodeScanner();
   nodeScanner.computeClickableNodes(node);
-  console.log("Inside NodeScanner.setStates, the nodeScanner object looks like:\n", nodeScanner);
   if (nodeScanner.easy) {
     nodeScanner.easy.state = 'easy';
   }
@@ -51,4 +50,16 @@ NodeScanner.findNodeById = function(node, target) {
     result = NodeScanner.findNodeById(node.right, target);
   }
   return result;
+}
+
+NodeScanner.replace = function(node, targetNode, replacementNode) {
+  if (!node) {
+    return null;
+  }
+  if (node == targetNode) {
+    return replacementNode;
+  }
+  node.left = NodeScanner.replace(node.left, targetNode, replacementNode);
+  node.right = NodeScanner.replace(node.right, targetNode, replacementNode);
+  return node;
 }
