@@ -1,5 +1,6 @@
 var StaticOperator = function(options) {
   this.id = options.id;
+//  this.nodeId = options.nodeId;
   this.value = options.value;
   this.state = options.state;
 };
@@ -14,7 +15,7 @@ StaticOperator.prototype.render = function() {
   }
   if (color) {
     return '<span class="mq-textcolor" style="color:' + color + '">' +
-      '<span class = "mq-binary-operator clickable" id="' + this.id + '">' + 
+      '<span class="mq-binary-operator clickable" id="' + this.id + '">' + 
       entity + 
       '</span>' +
       '</span>';

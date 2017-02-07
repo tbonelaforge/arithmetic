@@ -21,32 +21,41 @@ var Node = function () {
     }
   }
 
-  Node.prototype.toBufferContent = function() {
+  Node.prototype.toBufferContent = function(nodeId) {
     var bufferContent = [];
 
     if (this.type == 'operator') {
-      bufferContent.push(new StaticOperator({value: this.value}));
+      bufferContent.push(
+        new StaticOperator({
+          nodeId: nodeId,
+          value: this.value
+        })
+      );
     } else if (this.type == 'number') {
       var digitArray = this.splitDigits();
       for (var i = 0; i < digitArray.length; i++) {
         var digit = digitArray[i];
-        bufferContent.push(new StaticDigit({digit: parseInt(digit)}));
+        bufferContent.push(
+          new StaticDigit({
+            nodeId: nodeId,
+            digit: parseInt(digit)})
+        );
       }
     }
     return bufferContent;
   };
 
-  Node.prototype.toBufferContents = function() {
+  Node.prototype.toBufferContents = function(nodeId) {
     var left = [];
     var right = [];
 
     if (this.left) {
-      left = this.left.toBufferContents();
+      left = this.left.toBufferContents(nodeId);
     }
     if (this.right) {
-      right = this.right.toBufferContents();
+      right = this.right.toBufferContents(nodeId);
     }
-    var thisBufferContent = this.toBufferContent();
+    var thisBufferContent = this.toBufferContent(nodeId);
     var bufferContents = left.concat(thisBufferContent, right);
     return bufferContents;
   }
@@ -138,6 +147,42 @@ var Node = function () {
     }
 
   }
+
+  Node.prototype.getHint = function() {
+    var description = this.describeOperation();
+    if (description == null) {
+      console.log("Can't get Hint for node:\n");
+      console.log(this);
+      return null;
+    }
+    if (this.left.type != "number" || this.right.type != "number") {
+      return "Try a simpler expression.";
+    }
+    var hint = "Try " + description.full + " " 
+      + this.left.value + " " + description.brief + " " + this.right.value;
+    return hint;
+  };
+
+  Node.prototype.describeOperation = function() {
+    if (this.type != "operator") {
+      console.log("Can't describe operation for node of type %s \n", this.type);
+      return null;
+    }
+    if (this.value == "*") {
+      return {
+        full: "multiplying",
+        brief: "times"
+      };
+    } else if (this.value == "+") {
+      return {
+        full: "adding",
+        brief: "plus"
+      };
+    } else {
+      console.log("Unknown operator: %s", this.value);
+      return null;
+    }
+  };
 
   return Node;
 }();

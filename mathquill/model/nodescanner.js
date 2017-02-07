@@ -33,6 +33,7 @@ NodeScanner.setStates = function(node) {
   if (nodeScanner.hard) {
     nodeScanner.hard.state = 'hard';
   }
+  return node;
 }
 
 NodeScanner.findNodeById = function(node, target) {
@@ -62,4 +63,4 @@ NodeScanner.replace = function(node, targetNode, replacementNode) {
   node.left = NodeScanner.replace(node.left, targetNode, replacementNode);
   node.right = NodeScanner.replace(node.right, targetNode, replacementNode);
   return node;
-}
+};

@@ -1,3 +1,4 @@
+/*
 var node6 = new Node({
   type: "number",
   value: 22
@@ -22,12 +23,16 @@ var node10 = new Node({
   type: "number",
   value: 55
 });
+*/
 
+/*
 node9.left = node8;
 node9.right = node10;
 node7.left = node6; // node7 is root
 node7.right = node9;
 NodeScanner.setStates(node7);
+*/
+
 
 function findNumberEditor(viewNodes) {
   for (var i = 0; i < viewNodes.length; i++) {
@@ -96,7 +101,8 @@ function onKeyPress(numberEditor) {
 }
 
 // Controller State.
-var root = node7;
+//var root = node7;
+var root = generateNewExpression();
 var editorElement = null;
 var cursorFlasher = null;
 var targetNode = null;
@@ -154,14 +160,78 @@ function handleSubmission(numberEditor) {
         value: submission
       });
       root = NodeScanner.replace(root, targetNode, replacementNode);
+      resetDisplay();
+      if (root.type == "number") {
+        $('#next-button').show();
+        $('#next-button').focus();
+      }
+      return;
     }
   } else {
     console.log("The submission was not parseable...");
   }
-  resetDisplay();
+  showHint(targetNode, function() {
+    console.log("All done showing hint...\n");
+    resetDisplay();
+  });
 }
 
-updateDisplay();
+function showHint(targetNode, callback) {
+  var hintString = targetNode.getHint();
+  jAlert(hintString, 'Incorrect', callback);
+  var hintPosition = computeHintPosition(targetNode);
+  if (hintPosition) {
+    $('#popup_container').css({
+      top: hintPosition.top + 'px',
+      left: hintPosition.left + 'px'
+    });
+  } else {
+    console.log("Unable to compute hint position...\n");
+  }
+}
+
+function computeHintPosition(targetNode) {
+  var editorJQ = $('#editor');
+  if (editorJQ.length) {
+    var editorPosition = editorJQ.position();
+    var editorHeight = editorJQ.height();
+    return {
+      top: editorPosition.top + editorHeight,
+      left: editorPosition.left
+    };
+  } else {
+    console.log("Unable to locate the editor..");
+    return null;
+  }
+}
+
+//updateDisplay();
 
 // allow clicking out of editable area to go back to static display
 document.addEventListener('click', handleClickOutside, false);
+
+/* DEBUG */
+/*
+function displayAlertPosition() {
+  alertJQ = $('#popup_container');
+  if (alertJQ.length) {
+    var alertPosition = alertJQ.position();
+    $('#debug').text(
+      "top: " + alertPosition.top +
+      " left: " + alertPosition.left
+    );
+  } else {
+    $('#debug').text("no alert currently");
+  }
+}
+setInterval(displayAlertPosition, 1000);
+*/
+
+$('#next-button').click(function() {
+  root = generateNewExpression();
+  resetDisplay();
+  $('#next-button').hide();
+});
+
+
+resetDisplay();
